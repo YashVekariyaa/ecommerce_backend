@@ -1,0 +1,846 @@
+{
+	"info": {
+		"_postman_id": "bd0cca54-1b5d-487a-b8fd-1a8728bb7bdd",
+		"name": "Ecom-ts",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23293143"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "firstname",
+									"value": "yash",
+									"type": "text"
+								},
+								{
+									"key": "lastname",
+									"value": "vekariya",
+									"type": "text"
+								},
+								{
+									"key": "mobile",
+									"value": "1234567891",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "yash@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456789",
+									"type": "text"
+								},
+								{
+									"key": "profile_Image",
+									"type": "file",
+									"src": "/C:/Users/admin/Downloads/Think Twice, Code Once! by pcbots.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/register",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"yash@gmail.com\",\r\n    \"password\":\"123456789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:4000/api/login",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/user/64d26d4237f01997511beabc",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"64d26d4237f01997511beabc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Contact Us",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"asbkjibv\",\r\n    \"mobile\":1236547890,\r\n    \"email\":\"test@gmail.com\",\r\n    \"message\":\"hjsdv\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/contactus",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"contactus"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categories",
+			"item": [
+				{
+					"name": "category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\":\"laptop\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/addCategory",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"addCategory"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "subcategory",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\":\"laptop\",\r\n    \"subcategory\":\"lenovo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/addSubCategory",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"addSubCategory"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "mobile",
+									"value": "1234567891",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "admin@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123",
+									"type": "text"
+								},
+								{
+									"key": "profile_Image",
+									"type": "file",
+									"src": "/C:/Users/admin/Downloads/UCS319_1YOT_F010O_S_182_SLF.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/admin/register",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"admin@gmail.com\",\r\n    \"password\":\"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/admin/login",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "addproduct",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "productname",
+									"value": "gents shoes",
+									"type": "text"
+								},
+								{
+									"key": "category",
+									"value": "tshirt",
+									"type": "text"
+								},
+								{
+									"key": "subcategory",
+									"value": "sport",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "1000",
+									"type": "text"
+								},
+								{
+									"key": "color",
+									"value": "black",
+									"type": "text"
+								},
+								{
+									"key": "quantity",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "black cotton tshirt for men",
+									"type": "text"
+								},
+								{
+									"key": "img",
+									"type": "file",
+									"src": "/C:/Users/admin/Downloads/chandra-sekhar-poudyal-parshuram.jpg"
+								},
+								{
+									"key": "galleryimg",
+									"type": "file",
+									"src": [
+										"/C:/Users/admin/Downloads/wallpaperflare.com_wallpaper.jpg",
+										"/C:/Users/admin/Downloads/chandra-sekhar-poudyal-krishna-and-arjun-00043.jpg"
+									],
+									"disabled": true
+								},
+								{
+									"key": "galleryimg",
+									"type": "file",
+									"src": "/C:/Users/admin/Downloads/chandra-sekhar-poudyal-parshuram.jpg",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/addproduct",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"addproduct"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/deleteproduct/64e4c6b48d7eab729cc6fcf3",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"deleteproduct",
+								"64e4c6b48d7eab729cc6fcf3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "productname",
+									"value": "gents j",
+									"type": "text"
+								},
+								{
+									"key": "category",
+									"value": "tshirt",
+									"type": "text"
+								},
+								{
+									"key": "subcategory",
+									"value": "sport",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "1000",
+									"type": "text"
+								},
+								{
+									"key": "color",
+									"value": "black",
+									"type": "text"
+								},
+								{
+									"key": "quantity",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "black cotton tshirt for men",
+									"type": "text"
+								},
+								{
+									"key": "img",
+									"type": "file",
+									"src": "/C:/Users/admin/Downloads/wallpaperflare.com_wallpaper.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/updateproduct/64e9f8609859c72238dd24c8",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"updateproduct",
+								"64e9f8609859c72238dd24c8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get products",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGQyNmQ0MjM3ZjAxOTk3NTExYmVhYmMiLCJpYXQiOjE2OTkwOTQ4MzEsImV4cCI6MTY5OTE4MTIzMX0.JlM0dhgLwAnxbGIXQeMHal2FWlg9GNKhHl9GXJaL4Rw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/products",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"products"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cart",
+			"item": [
+				{
+					"name": "add cart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGQyNmQ0MjM3ZjAxOTk3NTExYmVhYmMiLCJpYXQiOjE2OTkwOTQ4MzEsImV4cCI6MTY5OTE4MTIzMX0.JlM0dhgLwAnxbGIXQeMHal2FWlg9GNKhHl9GXJaL4Rw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productId\": \"64e9f8609859c72238dd24c8\",\r\n    \"quantity\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/addcart",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"addcart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete cart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/deletecart/64f60327e16b5196cf9327e7",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"deletecart",
+								"64f60327e16b5196cf9327e7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get cart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGQyNmQ0MjM3ZjAxOTk3NTExYmVhYmMiLCJpYXQiOjE2OTkwOTQ4MzEsImV4cCI6MTY5OTE4MTIzMX0.JlM0dhgLwAnxbGIXQeMHal2FWlg9GNKhHl9GXJaL4Rw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/getcart",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"getcart"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Payment",
+			"item": [
+				{
+					"name": "payment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"price\": 20\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/payment",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"payment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verify",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"razorpay_order_id\": \"order_MYhcwiCHTLy1SH\",\r\n    \"razorpay_payment_id\": \"order_MYhcwiCHTLy1SH\" ,\r\n    \"razorpay_signature\": \"order_MYhcwiCHTLy1SH\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/verify",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"verify"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Wishlist",
+			"item": [
+				{
+					"name": "add wishlist",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGQyNmQ0MjM3ZjAxOTk3NTExYmVhYmMiLCJpYXQiOjE2OTkwOTQ4MzEsImV4cCI6MTY5OTE4MTIzMX0.JlM0dhgLwAnxbGIXQeMHal2FWlg9GNKhHl9GXJaL4Rw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productId\": \"64e9f8609859c72238dd24c8\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/addwishlist",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"addwishlist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get wishlist",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGQyNmQ0MjM3ZjAxOTk3NTExYmVhYmMiLCJpYXQiOjE2OTkwOTQ4MzEsImV4cCI6MTY5OTE4MTIzMX0.JlM0dhgLwAnxbGIXQeMHal2FWlg9GNKhHl9GXJaL4Rw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/wishlist",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"wishlist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete wishlist",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGQyNmQ0MjM3ZjAxOTk3NTExYmVhYmMiLCJpYXQiOjE2OTkwOTQ4MzEsImV4cCI6MTY5OTE4MTIzMX0.JlM0dhgLwAnxbGIXQeMHal2FWlg9GNKhHl9GXJaL4Rw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/wishlist/654627642f42c8c86fd30e2c",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"wishlist",
+								"654627642f42c8c86fd30e2c"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "localhost:4000",
+			"type": "string"
+		},
+		{
+			"key": "TOKEN",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGQyNmQ0MjM3ZjAxOTk3NTExYmVhYmMiLCJpYXQiOjE2OTM5MjY4NTUsImV4cCI6MTY5NDAxMzI1NX0.zrhh532DLfMA6ux0XnLDTOvZuGhPi3yV4azlZJZuMtA",
+			"type": "string"
+		}
+	]
+}
