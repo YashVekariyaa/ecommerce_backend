@@ -1,6 +1,6 @@
 import multer from "multer";
 import path from "path";
-const storage = multer.diskStorage({
+const storage: any = multer.diskStorage({
   destination: function (req: any, file: any, cd: any) {
     cd(null, "./src/Upload/Products/galleryImage");
   },
@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
     );
   },
 });
-const multerFilter = (req: any, file: any, cd: any) => {
+const multerFilter: any = (req: any, file: any, cd: any) => {
   if (
     file.mimetype == "image/png" ||
     file.mimetype == "image/jpg" ||
@@ -26,5 +26,8 @@ const multerFilter = (req: any, file: any, cd: any) => {
     cd("please upload reght image");
   }
 };
-const MultiProducts = multer({ storage: storage, fileFilter: multerFilter });
+const MultiProducts: any = multer({
+  storage: storage,
+  fileFilter: multerFilter,
+}).array("galleryimg", 5);
 export default MultiProducts;

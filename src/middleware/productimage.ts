@@ -6,7 +6,6 @@ const storage = multer.diskStorage({
     cd(null, "./src/Upload/Products");
   },
   filename: (req: any, file: any, cd: any) => {
-    // console.log('first', file.fieldname + "-" + Date.now() + path.extname(file.originalname))
     // console.log('file', file)
     cd(
       null,
@@ -14,17 +13,16 @@ const storage = multer.diskStorage({
     );
   },
 });
+
 const multerFilter = (req: any, file: any, cd: any) => {
   if (
     file.mimetype == "image/png" ||
     file.mimetype == "image/jpg" ||
-    file.mimetype == "image/jpeg" ||
-    file.mimetype == "image/mp4" ||
-    file.mimetype == "image/webp"
+    file.mimetype == "image/jpeg"
   ) {
     cd(null, true);
   } else {
-    cd("please upload reght image");
+    cd("please upload right image");
   }
 };
 const Upload = multer({ storage: storage, fileFilter: multerFilter });
