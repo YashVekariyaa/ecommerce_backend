@@ -1,50 +1,98 @@
 import { Request, Response, NextFunction } from "express";
 import Razorpay from "razorpay";
-import crypto from "crypto"
+import crypto from "crypto";
+import Product from "../model/product";
+import Order from "../model/order";
 
+const razorpay = new Razorpay({
+  key_id: "rzp_test_bQ0uziKKUphI6R",
+  key_secret: "MWSRrp0RPg7dtfuha1RsbXKS",
+});
 
-export const payment: any = async (req: Request,
-    res: Response,
-    next: NextFunction) => {
-    try {
-        const instant = new Razorpay({
-            key_id: "rzp_test_bQ0uziKKUphI6R",
-            key_secret: "MWSRrp0RPg7dtfuha1RsbXKS",
-        })
-        const option = {
-            amount: req.body.price * 100,
-            currency: "INR",
-            receipt: crypto.randomBytes(10).toString("hex"),
-        }
-        instant.orders.create(option, (error, order) => {
-            if (error) {
-                return res.json({ message: "something wrong" })
-            }
-            res.json({ data: order });
-        })
+export const createPayment: any = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { totalPrice } = req.body;
 
-    } catch (error) {
-        console.log('error', error)
+    // Create Razorpay order
+    const options = {
+      amount: totalPrice * 100, // Convert to paise
+      currency: "INR",
+      receipt: crypto.randomBytes(10).toString("hex"),
+    };
+
+    const order = await razorpay.orders.create(options);
+
+    res.json({ success: true, order });
+  } catch (error) {
+    res.status(500).json({ message: "Error creating payment order", error });
+  }
+};
+
+export const verifyPaymentAndCreateOrder = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const {
+      razorpay_order_id,
+      razorpay_payment_id,
+      razorpay_signature,
+      userId,
+      items,
+      totalPrice,
+    } = req.body;
+
+    // **Verify payment signature**
+    const sign = razorpay_order_id + "|" + razorpay_payment_id;
+    const expectedSign = crypto
+      .createHmac("sha256", process.env.KEY_SECRET || "")
+      .update(sign.toString())
+      .digest("hex");
+
+    if (razorpay_signature !== expectedSign) {
+      return res.status(400).json({ message: "Invalid payment signature" });
     }
-}
 
-export const verify: any = async (req: Request,
-    res: Response,
-    next: NextFunction) => {
-    try {
-        const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body
-        const sign = razorpay_order_id + "|" + razorpay_payment_id;
-        const expectedSign = crypto
-            .createHmac("sha256", "MWSRrp0RPg7dtfuha1RsbXKS")
-            .update(sign.toString())
-            .digest("hex"); 
-        if (razorpay_signature === expectedSign) {
-            return res.json({ message: "payment verify successfully", paymentid: razorpay_payment_id })
-        } else {
-            return res.json({ message: "Invelid payment" })
-        }
+    // ✅ **Step 3: Deduct Stock After Payment Success**
+    for (const item of items) {
+      const product = await Product.findById(item.productId);
+      if (!product)
+        return res.status(404).json({ message: "Product not found" });
 
-    } catch (err) {
-        next(err)
+      if (product.quantity < item.quantity) {
+        return res
+          .status(400)
+          .json({ message: `Not enough stock for ${product.productname}` });
+      }
+
+      await Product.findByIdAndUpdate(item.productId, {
+        $inc: { quantity: -item.quantity },
+      });
     }
-}
+
+    // ✅ **Step 4: Create Order in Database**
+    const newOrder = await Order.create({
+      user: userId,
+      items: items.map((item: any) => ({
+        product: item.productId,
+        quantity: item.quantity,
+        price: item.price,
+      })),
+      totalAmount: totalPrice,
+      paymentStatus: "Paid",
+      paymentId: razorpay_payment_id,
+      orderStatus: "Processing",
+    });
+
+    res
+      .status(201)
+      .json({ message: "Payment verified & Order placed", order: newOrder });
+  } catch (error) {
+    res.status(500).json({ message: "Error verifying payment", error });
+  }
+};

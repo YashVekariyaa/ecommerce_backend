@@ -1,16 +1,26 @@
 import mongoose, { Schema, Document, Types } from "mongoose";
+import Review from "./review";
+import reviewSchema from "./review";
 
 export interface Products extends Document {
   _id: Types.ObjectId;
   productname: string;
-  category:string;
-  subcategory:string;
-  img:string;
-  galleryimg: string;
-  price:number;
-  color:string;
-  quantity:number;
-  description:string;
+  category: string;
+  subcategory: string;
+  img: string;
+  galleryimg: string[];
+  price: number;
+  color: string;
+  quantity: number;
+  description: string;
+  averageRating: number;
+  reviews: {
+    _id?: Types.ObjectId;
+    userId: Types.ObjectId;
+    rating: number;
+    comment: string;
+    createdAt: Date;
+  }[];
 }
 
 const productSchema: Schema = new mongoose.Schema(
@@ -32,7 +42,7 @@ const productSchema: Schema = new mongoose.Schema(
       required: false,
     },
     galleryimg: {
-      type: String,
+      type: [String],
       required: false,
     },
     price: {
@@ -51,8 +61,13 @@ const productSchema: Schema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    averageRating: {
+      type: Number,
+      default: 0,
+    },
+    reviews: [reviewSchema],
   },
-  { timestamps: true,collection:"product" }
+  { timestamps: true, collection: "product" }
 );
 
 const Product = mongoose.model<Products>("Product", productSchema);
