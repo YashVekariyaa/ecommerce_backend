@@ -84,10 +84,6 @@ const router = express.Router();
 router.post(
   "/api/register",
   upload.fields([{ name: "profile_Image", maxCount: 1 }]),
-  validateRequest(registerSchema, "profile_Image", {
-    maxSize: 2 * 1024 * 1024, // 2 MB
-    allowedTypes: ["image/jpeg", "image/png", "image/jpg"],
-  }),
   register
 );
 router.post("/api/login", validateRequest(loginSchema), login);
