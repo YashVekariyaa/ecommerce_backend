@@ -25,10 +25,7 @@ const orderSchema_1 = require("../validation/orderSchema");
 const router = express_1.default.Router();
 exports.router = router;
 // user Routes
-router.post("/api/register", uploadImages_1.default.fields([{ name: "profile_Image", maxCount: 1 }]), (0, utils_1.validateRequest)(userSchema_1.registerSchema, "profile_Image", {
-    maxSize: 2 * 1024 * 1024, // 2 MB
-    allowedTypes: ["image/jpeg", "image/png", "image/jpg"],
-}), userController_1.register);
+router.post("/api/register", uploadImages_1.default.fields([{ name: "profile_Image", maxCount: 1 }]), userController_1.register);
 router.post("/api/login", (0, utils_1.validateRequest)(userSchema_1.loginSchema), userController_1.login);
 router.get("/api/user/:id", Token_1.VerifyToken, userController_1.getSingleUser);
 router.put("/api/user/:id", Token_1.VerifyToken, uploadImages_1.default.fields([{ name: "profile_Image", maxCount: 1 }]), (0, utils_1.validateRequest)(userSchema_1.registerSchema, "profile_Image", {
