@@ -10,6 +10,7 @@ const fs_1 = __importDefault(require("fs"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const category_1 = __importDefault(require("../model/category"));
 const subcategory_1 = __importDefault(require("../model/subcategory"));
+const utils_1 = require("../constants/utils");
 dotenv_1.default.config();
 const addProduct = async (req, res, next) => {
     const { productname, category, // this should be category ID
@@ -47,7 +48,7 @@ const addProduct = async (req, res, next) => {
         // Handle images
         const files = req.files;
         const singleImage = files?.["img"]
-            ? `${process.env.BASE_URL}/img/${files["img"][0].filename}`
+            ? `${utils_1.URL}/api/img/${files["img"][0].filename}`
             : null;
         if (!singleImage) {
             return res
@@ -55,7 +56,7 @@ const addProduct = async (req, res, next) => {
                 .json({ success: false, message: "Single image is required" });
         }
         const galleryImages = files?.["galleryimg"]
-            ? files["galleryimg"].map((file) => `${process.env.BASE_URL}/galleryimg/${file.filename}`)
+            ? files["galleryimg"].map((file) => `${utils_1.URL}/api/galleryimg/${file.filename}`)
             : [];
         // Save product with IDs
         const addproduct = new product_1.default({
@@ -153,7 +154,7 @@ const updateProduct = async (req, res, next) => {
     };
     const files = req.files;
     const singleImage = files?.["img"]
-        ? `${process.env.BASE_URL}/img/${files["img"][0].filename}`
+        ? `${utils_1.URL}/api/img/${files["img"][0].filename}`
         : null;
     if (singleImage) {
         updateData.img = singleImage;
@@ -174,7 +175,7 @@ const updateProduct = async (req, res, next) => {
             .json({ success: false, message: "Single image is required" });
     }
     if (req.files) {
-        const galleryImages = req.files["galleryimg"]?.map((file) => `${process.env.BASE_URL}/galleryimg/${file.filename}`);
+        const galleryImages = req.files["galleryimg"]?.map((file) => `${utils_1.URL}/api/galleryimg/${file.filename}`);
         if (galleryImages && galleryImages.length > 0) {
             // Delete old gallery images
             if (product.galleryimg && product.galleryimg.length > 0) {

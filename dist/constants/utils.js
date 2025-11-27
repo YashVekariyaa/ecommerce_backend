@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateRequest = void 0;
+exports.URL = exports.validateRequest = void 0;
 const fs_1 = __importDefault(require("fs"));
 const validateRequest = (schema, fileField, fileOptions) => {
     return async (req, res, next) => {
@@ -49,3 +49,4 @@ const validateRequest = (schema, fileField, fileOptions) => {
     };
 };
 exports.validateRequest = validateRequest;
+exports.URL = "https://ecommerce-backend-e75g.onrender.com";

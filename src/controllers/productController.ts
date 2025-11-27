@@ -6,6 +6,7 @@ import User from "../model/user";
 import dotenv from "dotenv";
 import Category from "../model/category";
 import Subcategory from "../model/subcategory";
+import { URL } from "../constants/utils";
 dotenv.config();
 
 export const addProduct: any = async (
@@ -60,7 +61,7 @@ export const addProduct: any = async (
     // Handle images
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
     const singleImage = files?.["img"]
-      ? `${process.env.BASE_URL}/img/${files["img"][0].filename}`
+      ? `${URL}/api/img/${files["img"][0].filename}`
       : null;
     if (!singleImage) {
       return res
@@ -71,7 +72,7 @@ export const addProduct: any = async (
     const galleryImages = files?.["galleryimg"]
       ? files["galleryimg"].map(
           (file: Express.Multer.File) =>
-            `${process.env.BASE_URL}/galleryimg/${file.filename}`
+            `${URL}/api/galleryimg/${file.filename}`
         )
       : [];
 
@@ -193,7 +194,7 @@ export const updateProduct: any = async (
 
   const files = req.files as { [fieldname: string]: Express.Multer.File[] };
   const singleImage = files?.["img"]
-    ? `${process.env.BASE_URL}/img/${files["img"][0].filename}`
+    ? `${URL}/api/img/${files["img"][0].filename}`
     : null;
 
   if (singleImage) {
@@ -220,7 +221,7 @@ export const updateProduct: any = async (
       req.files as { [fieldname: string]: Express.Multer.File[] }
     )["galleryimg"]?.map(
       (file: Express.Multer.File) =>
-        `${process.env.BASE_URL}/galleryimg/${file.filename}`
+        `${URL}/api/galleryimg/${file.filename}`
     );
     if (galleryImages && galleryImages.length > 0) {
       // Delete old gallery images

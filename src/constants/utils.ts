@@ -60,3 +60,5 @@ export const validateRequest = (
         next();
     };
 };
+
+export const URL = "https://ecommerce-backend-e75g.onrender.com"
