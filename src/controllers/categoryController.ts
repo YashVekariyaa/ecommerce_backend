@@ -31,37 +31,65 @@ export const category: any = async (
   } catch (err) {}
 };
 
-export const subCategory: any = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const subCategory = async (req: Request, res: Response) => {
   try {
     const { category, subcategory } = req.body;
+
+    if (!category || !subcategory) {
+      return res.json({
+        success: false,
+        message: "Category ID and subcategory are required.",
+      });
+    }
 
     const addSubCategory = new Subcategory({
       category,
       subcategory,
     });
-    const create = await addSubCategory.save();
-    if (create) {
-      res.json({ success: true, message: "SubCategory created successfully." });
-    } else {
-      res.json({ success: false, message: "something went wrong" });
-    }
-  } catch (err) {}
+
+    await addSubCategory.save();
+
+    res.json({
+      success: true,
+      message: "SubCategory created successfully.",
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error.",
+    });
+  }
 };
 
-export const getCategories: any = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const getCategories = async (req: Request, res: Response) => {
   try {
-    const existingCategory = await Category.find();
-    return res.json({ success: true, data: existingCategory, status: 200 });
+    const categories = await Category.aggregate([
+      {
+        $lookup: {
+          from: "subcategory", // collection name
+          localField: "_id",
+          foreignField: "category",
+          as: "subcategories",
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          category: 1,
+          subcategories: {
+            _id: 1,
+            subcategory: 1,
+            category: 1,
+          },
+        },
+      },
+    ]);
+
+    return res.json({ success: true, data: categories });
   } catch (err) {
-    console.log("err", err);
+    console.log(err);
+    return res.status(500).json({ success: false, message: "Server error" });
   }
 };
 

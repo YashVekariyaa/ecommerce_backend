@@ -30,31 +30,62 @@ const category = async (req, res, next) => {
     catch (err) { }
 };
 exports.category = category;
-const subCategory = async (req, res, next) => {
+const subCategory = async (req, res) => {
     try {
         const { category, subcategory } = req.body;
+        if (!category || !subcategory) {
+            return res.json({
+                success: false,
+                message: "Category ID and subcategory are required.",
+            });
+        }
         const addSubCategory = new subcategory_1.default({
             category,
             subcategory,
         });
-        const create = await addSubCategory.save();
-        if (create) {
-            res.json({ success: true, message: "SubCategory created successfully." });
-        }
-        else {
-            res.json({ success: false, message: "something went wrong" });
-        }
-    }
-    catch (err) { }
-};
-exports.subCategory = subCategory;
-const getCategories = async (req, res, next) => {
-    try {
-        const existingCategory = await category_1.default.find();
-        return res.json({ success: true, data: existingCategory, status: 200 });
+        await addSubCategory.save();
+        res.json({
+            success: true,
+            message: "SubCategory created successfully.",
+        });
     }
     catch (err) {
-        console.log("err", err);
+        console.log(err);
+        res.status(500).json({
+            success: false,
+            message: "Internal server error.",
+        });
+    }
+};
+exports.subCategory = subCategory;
+const getCategories = async (req, res) => {
+    try {
+        const categories = await category_1.default.aggregate([
+            {
+                $lookup: {
+                    from: "subcategory", // collection name
+                    localField: "_id",
+                    foreignField: "category",
+                    as: "subcategories",
+                },
+            },
+            {
+                $project: {
+                    _id: 1,
+                    category: 1,
+                    subcategories: {
+                        _id: 1,
+                        subcategory: 1,
+                        category: 1,
+                    },
+                },
+            },
+        ]);
+        return res.json({ success: true, data: categories });
+    }
+    catch (err) {
+        console.log(err);
+        return res.status(500).json({ success: false, message: "Server error" });
     }
 };
 exports.getCategories = getCategories;

@@ -18,7 +18,7 @@ export const subCategorySchema = Joi.object({
     category: Joi.string()
         .trim()
         .min(2)
-        .max(20)
+        .max(24)
         .required()
         .messages({
             "string.base": "Category must be a string.",

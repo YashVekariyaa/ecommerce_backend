@@ -6,12 +6,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const subCategorySchema = new mongoose_1.default.Schema({
     category: {
-        type: String,
+        type: mongoose_1.default.Schema.Types.ObjectId,
+        ref: "Category",
         required: true,
     },
     subcategory: {
         type: String,
-        required: true
+        required: true,
     },
 }, { timestamps: true, collection: "subcategory" });
 const Subcategory = mongoose_1.default.model("Subcategory", subCategorySchema);
