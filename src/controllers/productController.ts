@@ -15,8 +15,8 @@ export const addProduct: any = async (
 ) => {
   const {
     productname,
-    category,
-    subcategory,
+    category, // this should be category ID
+    subcategory, // this should be subcategory ID
     price,
     color,
     quantity,
@@ -34,8 +34,10 @@ export const addProduct: any = async (
   ) {
     return res.json({ success: false, message: "Something is Empty" });
   }
+
   try {
-    const categoryDoc = await Category.findOne({ category });
+    // Find category by ID
+    const categoryDoc = await Category.findById(category);
     if (!categoryDoc) {
       return res.json({
         success: false,
@@ -43,9 +45,10 @@ export const addProduct: any = async (
       });
     }
 
+    // Find subcategory by ID and category
     const subcategoryDoc = await Subcategory.findOne({
-      category,
-      subcategory,
+      _id: subcategory,
+      category: category,
     });
     if (!subcategoryDoc) {
       return res.json({
@@ -54,8 +57,8 @@ export const addProduct: any = async (
       });
     }
 
+    // Handle images
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
-
     const singleImage = files?.["img"]
       ? `${process.env.BASE_URL}/img/${files["img"][0].filename}`
       : null;
@@ -64,16 +67,19 @@ export const addProduct: any = async (
         .status(400)
         .json({ success: false, message: "Single image is required" });
     }
+
     const galleryImages = files?.["galleryimg"]
       ? files["galleryimg"].map(
           (file: Express.Multer.File) =>
             `${process.env.BASE_URL}/galleryimg/${file.filename}`
         )
       : [];
+
+    // Save product with IDs
     const addproduct = new Product({
       productname,
-      category,
-      subcategory,
+      category: categoryDoc._id,
+      subcategory: subcategoryDoc._id,
       img: singleImage,
       price,
       color,
@@ -81,17 +87,16 @@ export const addProduct: any = async (
       description,
       galleryimg: galleryImages,
     });
+
     const create = await addproduct.save();
     if (create) {
-      console.log("Product added successfully:", create);
       res.json({
         success: true,
         data: create,
-        message: "Product add successfully.",
+        message: "Product added successfully.",
       });
     } else {
-      console.log("Failed to add product");
-      res.json({ success: false, message: "something went wrong" });
+      res.json({ success: false, message: "Something went wrong" });
     }
   } catch (err: any) {
     console.error("Error adding product:", err.message);

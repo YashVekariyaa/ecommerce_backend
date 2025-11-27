@@ -12,7 +12,9 @@ const category_1 = __importDefault(require("../model/category"));
 const subcategory_1 = __importDefault(require("../model/subcategory"));
 dotenv_1.default.config();
 const addProduct = async (req, res, next) => {
-    const { productname, category, subcategory, price, color, quantity, description, } = req.body;
+    const { productname, category, // this should be category ID
+    subcategory, // this should be subcategory ID
+    price, color, quantity, description, } = req.body;
     if (!productname ||
         !category ||
         !subcategory ||
@@ -23,16 +25,18 @@ const addProduct = async (req, res, next) => {
         return res.json({ success: false, message: "Something is Empty" });
     }
     try {
-        const categoryDoc = await category_1.default.findOne({ category });
+        // Find category by ID
+        const categoryDoc = await category_1.default.findById(category);
         if (!categoryDoc) {
             return res.json({
                 success: false,
                 message: "Category does not exist",
             });
         }
+        // Find subcategory by ID and category
         const subcategoryDoc = await subcategory_1.default.findOne({
-            category,
-            subcategory,
+            _id: subcategory,
+            category: category,
         });
         if (!subcategoryDoc) {
             return res.json({
@@ -40,6 +44,7 @@ const addProduct = async (req, res, next) => {
                 message: "Subcategory does not exist in the specified category",
             });
         }
+        // Handle images
         const files = req.files;
         const singleImage = files?.["img"]
             ? `${process.env.BASE_URL}/img/${files["img"][0].filename}`
@@ -52,10 +57,11 @@ const addProduct = async (req, res, next) => {
         const galleryImages = files?.["galleryimg"]
             ? files["galleryimg"].map((file) => `${process.env.BASE_URL}/galleryimg/${file.filename}`)
             : [];
+        // Save product with IDs
         const addproduct = new product_1.default({
             productname,
-            category,
-            subcategory,
+            category: categoryDoc._id,
+            subcategory: subcategoryDoc._id,
             img: singleImage,
             price,
             color,
@@ -65,16 +71,14 @@ const addProduct = async (req, res, next) => {
         });
         const create = await addproduct.save();
         if (create) {
-            console.log("Product added successfully:", create);
             res.json({
                 success: true,
                 data: create,
-                message: "Product add successfully.",
+                message: "Product added successfully.",
             });
         }
         else {
-            console.log("Failed to add product");
-            res.json({ success: false, message: "something went wrong" });
+            res.json({ success: false, message: "Something went wrong" });
         }
     }
     catch (err) {
